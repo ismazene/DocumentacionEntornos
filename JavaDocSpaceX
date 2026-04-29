@@ -1,14 +1,15 @@
-package spacex.simulacion;
+package org.example;
+
 
 /**
  * Clase que representa una nave de SpaceX.
  * Permite gestionar el combustible, el estado de vuelo y acciones básicas
  * como lanzar, aterrizar o repostar.
- * 
+ *
  * @author Ismael
  * @version 1.0
  */
-public class NaveSpaceX {
+public class JavaDocSpaceX {
 
     protected String nombre;
     protected double combustible;
@@ -17,11 +18,11 @@ public class NaveSpaceX {
 
     /**
      * Constructor de la nave.
-     * 
+     *
      * @param nombre Nombre de la nave
-     * @param combustible Cantidad de combustible
+     * @param combustible Cantidad inicial de combustible
      */
-    public NaveSpaceX(String nombre, double combustible) {
+    public JavaDocSpaceX(String nombre, double combustible) {
         this.nombre = nombre;
         this.combustible = combustible;
         this.motor = new Motor("Merlin", 845);
@@ -29,9 +30,9 @@ public class NaveSpaceX {
     }
 
     /**
-     * Lanza la nave si tiene combustible
-     * 
-     * @throws si no hay combustible
+     * Lanza la nave si tiene combustible suficiente.
+     *
+     * @throws IllegalArgumentException si no hay combustible
      */
     public void lanzar() {
         if (combustible <= 0) {
@@ -42,9 +43,9 @@ public class NaveSpaceX {
     }
 
     /**
-     * Aterriza la nave
-     * 
-     * @throws si la nave no está en vuelo
+     * Aterriza la nave si está en vuelo.
+     *
+     * @throws IllegalArgumentException si la nave no está en vuelo
      */
     public void aterrizar() {
         if (!enVuelo) {
@@ -56,9 +57,9 @@ public class NaveSpaceX {
 
     /**
      * Añade combustible a la nave.
-     * 
+     *
      * @param cantidad Cantidad de combustible a añadir
-     * @throws si la cantidad es inválida o está en vuelo
+     * @throws IllegalArgumentException si la cantidad es inválida o está en vuelo
      */
     public void repostar(double cantidad) {
         if (cantidad <= 0) {
@@ -72,9 +73,9 @@ public class NaveSpaceX {
 
     /**
      * Reduce el combustible disponible.
-     * 
+     *
      * @param cantidad Cantidad a consumir
-     * @throws si la cantidad es inválida o insuficiente
+     * @throws IllegalArgumentException si la cantidad es inválida o insuficiente
      */
     public void consumirCombustible(double cantidad) {
         if (cantidad <= 0) {
@@ -88,7 +89,7 @@ public class NaveSpaceX {
 
     /**
      * Devuelve el combustible actual.
-     * 
+     *
      * @return cantidad de combustible
      */
     public double consultarCombustible() {
@@ -97,7 +98,7 @@ public class NaveSpaceX {
 
     /**
      * Indica si la nave está en vuelo.
-     * 
+     *
      * @return true si está en vuelo, false si no
      */
     public boolean isEnVuelo() {
@@ -109,14 +110,14 @@ public class NaveSpaceX {
  * Clase que representa una nave tripulada.
  * Extiende de NaveSpaceX y añade gestión de astronautas.
  */
-class NaveTripulada extends NaveSpaceX {
+class NaveTripulada extends JavaDocSpaceX {
 
     private int numeroAstronautas;
     private int capacidadMaxima;
 
     /**
      * Constructor de nave tripulada.
-     * 
+     *
      * @param nombre Nombre de la nave
      * @param combustible Combustible inicial
      * @param numeroAstronautas Astronautas actuales
@@ -130,7 +131,7 @@ class NaveTripulada extends NaveSpaceX {
 
     /**
      * Obtiene el número de astronautas.
-     * 
+     *
      * @return número de astronautas
      */
     public int getNumeroAstronautas() {
@@ -139,9 +140,9 @@ class NaveTripulada extends NaveSpaceX {
 
     /**
      * Modifica el número de astronautas.
-     * 
+     *
      * @param numeroAstronautas nuevo número
-     * @throws si es inválido
+     * @throws IllegalArgumentException si es inválido
      */
     public void setNumeroAstronautas(int numeroAstronautas) {
         if (numeroAstronautas < 0 || numeroAstronautas > capacidadMaxima) {
@@ -152,7 +153,7 @@ class NaveTripulada extends NaveSpaceX {
 
     /**
      * Devuelve la capacidad máxima.
-     * 
+     *
      * @return capacidad máxima
      */
     public int getCapacidadMaxima() {
@@ -161,9 +162,9 @@ class NaveTripulada extends NaveSpaceX {
 
     /**
      * Añade astronautas a la nave.
-     * 
+     *
      * @param cantidad cantidad a embarcar
-     * @throws si se supera la capacidad
+     * @throws IllegalArgumentException si se supera la capacidad
      */
     public void embarcar(int cantidad) {
         if (cantidad <= 0) {
@@ -177,9 +178,9 @@ class NaveTripulada extends NaveSpaceX {
 
     /**
      * Quita astronautas de la nave.
-     * 
+     *
      * @param cantidad cantidad a desembarcar
-     * @throws si no hay suficientes
+     * @throws IllegalArgumentException si no hay suficientes
      */
     public void desembarcar(int cantidad) {
         if (cantidad <= 0) {
@@ -193,8 +194,8 @@ class NaveTripulada extends NaveSpaceX {
 
     /**
      * Simula el acoplamiento en órbita.
-     * 
-     * @throws si la nave no está en vuelo
+     *
+     * @throws IllegalArgumentException si la nave no está en vuelo
      */
     public void acoplar() {
         if (!enVuelo) {
@@ -214,7 +215,7 @@ class Motor {
 
     /**
      * Constructor del motor.
-     * 
+     *
      * @param tipo tipo de motor
      * @param potencia potencia del motor
      */
@@ -225,7 +226,7 @@ class Motor {
 
     /**
      * Devuelve el tipo de motor.
-     * 
+     *
      * @return tipo
      */
     public String getTipo() {
@@ -234,7 +235,7 @@ class Motor {
 
     /**
      * Devuelve la potencia del motor.
-     * 
+     *
      * @return potencia
      */
     public int getPotencia() {
