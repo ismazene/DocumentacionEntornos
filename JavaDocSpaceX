@@ -1,0 +1,257 @@
+package spacex.simulacion;
+
+/**
+ * Clase que representa una nave de SpaceX.
+ * Permite gestionar el combustible, el estado de vuelo y acciones básicas
+ * como lanzar, aterrizar o repostar.
+ * 
+ * @author Ismael
+ * @version 1.0
+ */
+public class NaveSpaceX {
+
+    protected String nombre;
+    protected double combustible;
+    protected Motor motor;
+    protected boolean enVuelo;
+
+    /**
+     * Constructor de la nave.
+     * 
+     * @param nombre Nombre de la nave
+     * @param combustible Cantidad de combustible
+     */
+    public NaveSpaceX(String nombre, double combustible) {
+        this.nombre = nombre;
+        this.combustible = combustible;
+        this.motor = new Motor("Merlin", 845);
+        this.enVuelo = false;
+    }
+
+    /**
+     * Lanza la nave si tiene combustible
+     * 
+     * @throws si no hay combustible
+     */
+    public void lanzar() {
+        if (combustible <= 0) {
+            throw new IllegalArgumentException("No hay combustible para lanzar");
+        }
+        enVuelo = true;
+        System.out.println("Lanzando nave " + nombre);
+    }
+
+    /**
+     * Aterriza la nave
+     * 
+     * @throws si la nave no está en vuelo
+     */
+    public void aterrizar() {
+        if (!enVuelo) {
+            throw new IllegalArgumentException("La nave no está en vuelo");
+        }
+        enVuelo = false;
+        System.out.println("Aterrizando nave " + nombre);
+    }
+
+    /**
+     * Añade combustible a la nave.
+     * 
+     * @param cantidad Cantidad de combustible a añadir
+     * @throws si la cantidad es inválida o está en vuelo
+     */
+    public void repostar(double cantidad) {
+        if (cantidad <= 0) {
+            throw new IllegalArgumentException("Cantidad inválida");
+        }
+        if (enVuelo) {
+            throw new IllegalArgumentException("No se puede repostar en vuelo");
+        }
+        this.combustible += cantidad;
+    }
+
+    /**
+     * Reduce el combustible disponible.
+     * 
+     * @param cantidad Cantidad a consumir
+     * @throws si la cantidad es inválida o insuficiente
+     */
+    public void consumirCombustible(double cantidad) {
+        if (cantidad <= 0) {
+            throw new IllegalArgumentException("Cantidad inválida");
+        }
+        if (cantidad > combustible) {
+            throw new IllegalArgumentException("Combustible insuficiente");
+        }
+        this.combustible -= cantidad;
+    }
+
+    /**
+     * Devuelve el combustible actual.
+     * 
+     * @return cantidad de combustible
+     */
+    public double consultarCombustible() {
+        return combustible;
+    }
+
+    /**
+     * Indica si la nave está en vuelo.
+     * 
+     * @return true si está en vuelo, false si no
+     */
+    public boolean isEnVuelo() {
+        return enVuelo;
+    }
+}
+
+/**
+ * Clase que representa una nave tripulada.
+ * Extiende de NaveSpaceX y añade gestión de astronautas.
+ */
+class NaveTripulada extends NaveSpaceX {
+
+    private int numeroAstronautas;
+    private int capacidadMaxima;
+
+    /**
+     * Constructor de nave tripulada.
+     * 
+     * @param nombre Nombre de la nave
+     * @param combustible Combustible inicial
+     * @param numeroAstronautas Astronautas actuales
+     * @param capacidadMaxima Capacidad máxima de la nave
+     */
+    public NaveTripulada(String nombre, double combustible, int numeroAstronautas, int capacidadMaxima) {
+        super(nombre, combustible);
+        this.numeroAstronautas = numeroAstronautas;
+        this.capacidadMaxima = capacidadMaxima;
+    }
+
+    /**
+     * Obtiene el número de astronautas.
+     * 
+     * @return número de astronautas
+     */
+    public int getNumeroAstronautas() {
+        return numeroAstronautas;
+    }
+
+    /**
+     * Modifica el número de astronautas.
+     * 
+     * @param numeroAstronautas nuevo número
+     * @throws si es inválido
+     */
+    public void setNumeroAstronautas(int numeroAstronautas) {
+        if (numeroAstronautas < 0 || numeroAstronautas > capacidadMaxima) {
+            throw new IllegalArgumentException("Número de astronautas inválido");
+        }
+        this.numeroAstronautas = numeroAstronautas;
+    }
+
+    /**
+     * Devuelve la capacidad máxima.
+     * 
+     * @return capacidad máxima
+     */
+    public int getCapacidadMaxima() {
+        return capacidadMaxima;
+    }
+
+    /**
+     * Añade astronautas a la nave.
+     * 
+     * @param cantidad cantidad a embarcar
+     * @throws si se supera la capacidad
+     */
+    public void embarcar(int cantidad) {
+        if (cantidad <= 0) {
+            throw new IllegalArgumentException("Cantidad inválida");
+        }
+        if (numeroAstronautas + cantidad > capacidadMaxima) {
+            throw new IllegalArgumentException("Capacidad excedida");
+        }
+        numeroAstronautas += cantidad;
+    }
+
+    /**
+     * Quita astronautas de la nave.
+     * 
+     * @param cantidad cantidad a desembarcar
+     * @throws si no hay suficientes
+     */
+    public void desembarcar(int cantidad) {
+        if (cantidad <= 0) {
+            throw new IllegalArgumentException("Cantidad inválida");
+        }
+        if (cantidad > numeroAstronautas) {
+            throw new IllegalArgumentException("No hay suficientes astronautas");
+        }
+        numeroAstronautas -= cantidad;
+    }
+
+    /**
+     * Simula el acoplamiento en órbita.
+     * 
+     * @throws si la nave no está en vuelo
+     */
+    public void acoplar() {
+        if (!enVuelo) {
+            throw new IllegalArgumentException("La nave debe estar en vuelo para acoplarse");
+        }
+        System.out.println("La nave " + nombre + " se está acoplando en órbita.");
+    }
+}
+
+/**
+ * Clase que representa el motor de la nave.
+ */
+class Motor {
+
+    private String tipo;
+    private int potencia;
+
+    /**
+     * Constructor del motor.
+     * 
+     * @param tipo tipo de motor
+     * @param potencia potencia del motor
+     */
+    public Motor(String tipo, int potencia) {
+        this.tipo = tipo;
+        this.potencia = potencia;
+    }
+
+    /**
+     * Devuelve el tipo de motor.
+     * 
+     * @return tipo
+     */
+    public String getTipo() {
+        return tipo;
+    }
+
+    /**
+     * Devuelve la potencia del motor.
+     * 
+     * @return potencia
+     */
+    public int getPotencia() {
+        return potencia;
+    }
+
+    /**
+     * Enciende el motor.
+     */
+    public void encender() {
+        System.out.println("Motor " + tipo + " encendido con potencia " + potencia);
+    }
+
+    /**
+     * Apaga el motor.
+     */
+    public void apagar() {
+        System.out.println("Motor apagado");
+    }
+}
